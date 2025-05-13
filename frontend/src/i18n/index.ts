@@ -11,6 +11,11 @@ const translationKeys = [
   'loading', 'errorFetchMovies', 'errorFetchGenre', 'welcome',
   'homeTagline', 'recentReleases', 'recentDescription',
   'recommendedTitle', 'recommendedDescription', 'movieCount','yourcollection',
+  // Added new keys
+  'addToWatchlist', 'removeFromWatchlist', 'rateMovie', 'shareMovie',
+  'movieDetails', 'actor', 'director', 'genre', 'releaseDate',
+  'duration', 'languageOfFilm', 'averageRating', 'ratingCount',
+  'clearSuccess', // New key added
 ];
 
 // Define translations for each language
@@ -33,8 +38,12 @@ const translations: Record<string, string[]> = {
     'Recommended For You',
     'Based on your watchlist and favorites',
     'Showing {{count}} movies','Your Collection',
+    // Added new translations
+    'Add to Watchlist', 'Remove from Watchlist', 'Rate this Movie', 'Share this Movie',
+    'Movie Details', 'Actor', 'Director', 'Genre', 'Release Date',
+    'Duration', 'Language of Film', 'Average Rating', 'Rating Count',
+    'Watchlist cleared successfully', // Translation for clearSuccess
   ],
- 
   hi: [
     'होम', 'खोजें', 'खोजना', 'देखने की सूची', 'रुझान', 'सेटिंग्स',
     'मेनू', 'लाइब्रेरी', 'अन्य', 'रूप', 'थीम',
@@ -53,6 +62,11 @@ const translations: Record<string, string[]> = {
     'आपके लिए अनुशंसित',
     'आपकी वॉचलिस्ट और पसंदीदा के आधार पर',
     '{{count}} फ़िल्में दिखा रहे हैं','आपका संग्रह',
+    // Added new translations
+    'वॉचलिस्ट में जोड़ें', 'वॉचलिस्ट से हटाएं', 'इस फिल्म को रेट करें', 'इस फिल्म को शेयर करें',
+    'फिल्म विवरण', 'अभिनेता', 'निर्देशक', 'श्रेणी', 'रिलीज़ तिथि',
+    'समय अवधि', 'फिल्म की भाषा', 'औसत रेटिंग', 'रेटिंग की संख्या',
+    'वॉचलिस्ट सफलतापूर्वक साफ़ कर दी गई', // Translation for clearSuccess
   ],
   pa: [
     'ਘਰ', 'ਖੋਜੋ', 'ਖੋਜ', 'ਵਾਚਲਿਸਟ', 'ਟ੍ਰੈਂਡਿੰਗ', 'ਸੈਟਿੰਗਜ਼',
@@ -72,6 +86,11 @@ const translations: Record<string, string[]> = {
     'ਤੁਹਾਡੇ ਲਈ ਸੁਝਾਈ ਗਈਆਂ',
     'ਤੁਹਾਡੀ ਵਾਚਲਿਸਟ ਅਤੇ ਮਨਪਸੰਦਾਂ ਦੇ ਆਧਾਰ ਤੇ',
     '{{count}} ਫਿਲਮਾਂ ਵਿਖਾਈਆਂ ਜਾ ਰਹੀਆਂ ਹਨ','ਤੁਹਾਡਾ ਸੰਗ੍ਰਹਿ',
+    // Added new translations
+    'ਵਾਚਲਿਸਟ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ', 'ਵਾਚਲਿਸਟ ਤੋਂ ਹਟਾਓ', 'ਇਸ ਫਿਲਮ ਨੂੰ ਰੇਟ ਕਰੋ', 'ਇਸ ਫਿਲਮ ਨੂੰ ਸਾਂਝਾ ਕਰੋ',
+    'ਫਿਲਮ ਵੇਰਵਾ', 'ਅਦਾਕਾਰ', 'ਨਿਰਦੇਸ਼ਕ', 'ਸ਼੍ਰੇਣੀ', 'ਰਿਲੀਜ਼ ਦੀ ਤਰੀਖ',
+    'ਟਿਕਾਣਾ', 'ਫਿਲਮ ਦੀ ਭਾਸ਼ਾ', 'ਔਸਤ ਰੇਟਿੰਗ', 'ਰੇਟਿੰਗ ਗਿਣਤੀ',
+    'ਵਾਚਲਿਸਟ ਸਫਲਤਾਪੂਰਵਕ ਸਾਫ਼ ਕਰ ਦਿੱਤੀ ਗਈ', // Translation for clearSuccess
   ],
   hinglish: [
     'Home', 'Khojo', 'Search karo', 'Watchlist', 'Trending', 'Settings',
@@ -90,7 +109,12 @@ const translations: Record<string, string[]> = {
     'Last 3 saal ki movies',
     'Aapke liye recommended',
     'Watchlist aur favourites ke basis pe',
-    '{{count}} movies dikhayi ja rahi hain', 'Aapka collection'
+    '{{count}} movies dikhayi ja rahi hain', 'Aapka collection',
+    // Added new translations
+    'Watchlist mein add karo', 'Watchlist se hatao', 'Is movie ko rate karo', 'Is movie ko share karo',
+    'Movie details', 'Actor', 'Director', 'Genre', 'Release Date',
+    'Duration', 'Language of Film', 'Average Rating', 'Rating Count',
+    'Watchlist successfully cleared', // Translation for clearSuccess
   ]
 };
 

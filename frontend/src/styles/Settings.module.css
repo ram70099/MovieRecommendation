@@ -264,3 +264,32 @@ input:checked + .slider:before {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   }
 }
+/* Success message styles */
+.successMessage {
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  background-color: #4CAF50;
+  color: white;
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  font-size: var(--font-size-md);
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}

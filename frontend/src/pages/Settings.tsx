@@ -26,6 +26,7 @@ const Settings: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { settings, updateSettings } = useSettings();
   const [showConfirmClear, setShowConfirmClear] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false); // New state to handle success animation
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(event.target.value);
@@ -36,6 +37,8 @@ const Settings: React.FC = () => {
     if (showConfirmClear) {
       clearAllData();
       setShowConfirmClear(false);
+      setIsSuccess(true); // Trigger success animation
+      setTimeout(() => setIsSuccess(false), 2000); // Reset success state after animation duration
     } else {
       setShowConfirmClear(true);
     }
@@ -137,6 +140,11 @@ const Settings: React.FC = () => {
             {showConfirmClear ? t('confirmClear') : t('clearData')}
           </button>
         </div>
+        {isSuccess && (
+          <div className={styles.successMessage}>
+            <p>{t('clearSuccess')}</p>
+          </div>
+        )}
       </section>
     </div>
   );
