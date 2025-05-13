@@ -40,13 +40,13 @@ const Sidebar: React.FC = () => {
             <div className="nav-group-title">{t('library')}</div>
             <NavLink to="/watchlist" className={({ isActive }) => isActive ? 'active' : ''}>
               <Bookmark size={24} strokeWidth={2.5} />
-              <span className="link-text">{t('watchlist')}</span>
+              <span className="link-text">{t('yourcollection')}</span>
             </NavLink>
 
-            <NavLink to="/trending" className={({ isActive }) => isActive ? 'active' : ''}>
+            {/* <NavLink to="/trending" className={({ isActive }) => isActive ? 'active' : ''}>
               <TrendingUp size={24} strokeWidth={2.5} />
               <span className="link-text">{t('trending')}</span>
-            </NavLink>
+            </NavLink> */}
           </div>
 
           <div className="nav-group">

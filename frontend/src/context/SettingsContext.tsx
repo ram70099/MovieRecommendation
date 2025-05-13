@@ -7,6 +7,7 @@ interface SettingsContextType {
   clearAppData: () => void;
 }
 
+
 const defaultSettings: UserSettings = {
   theme: 'dark',
   language: 'en',

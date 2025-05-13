@@ -7,22 +7,26 @@ interface MovieGridProps {
   movies: Movie[]
   title: string
   description?: string
+  genres?: string[]
+  selectedGenre?: string
+  onGenreChange?: (genre: string) => void
 }
 
-const MovieGrid = ({ movies, title, description }: MovieGridProps) => {
+const MovieGrid = ({
+  movies,
+  title,
+  description,
+  genres,
+  selectedGenre,
+  onGenreChange
+}: MovieGridProps) => {
   const [sortBy, setSortBy] = useState<'title' | 'year' | 'rating'>('title')
-  const [filterValue, setFilterValue] = useState('')
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value as 'title' | 'year' | 'rating')
   }
 
-  const filteredMovies = movies.filter(movie => 
-    movie.title.toLowerCase().includes(filterValue.toLowerCase()) ||
-    movie.genres.some(genre => genre.toLowerCase().includes(filterValue.toLowerCase()))
-  )
-
-  const sortedMovies = [...filteredMovies].sort((a, b) => {
+  const sortedMovies = [...movies].sort((a, b) => {
     if (sortBy === 'title') return a.title.localeCompare(b.title)
     if (sortBy === 'year') return b.year - a.year
     if (sortBy === 'rating') return b.rating - a.rating
@@ -36,21 +40,26 @@ const MovieGrid = ({ movies, title, description }: MovieGridProps) => {
           <h2>{title}</h2>
           {description && <p>{description}</p>}
         </div>
-        <div className="header-controls">
-          <div className="search-control">
-            <div className="search-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
+
+        <div className="header-controls horizontal-row">
+          {/* Only render genre filter if genre props are passed */}
+          {genres && selectedGenre !== undefined && onGenreChange && (
+            <div className="genre-control">
+              <label>Genre:</label>
+              <select
+                value={selectedGenre}
+                onChange={e => onGenreChange(e.target.value)}
+              >
+                <option value="All">All</option>
+                {genres.map((genre, index) => (
+                  <option key={index} value={genre}>
+                    {genre}
+                  </option>
+                ))}
+              </select>
             </div>
-            <input 
-              type="text" 
-              placeholder="Filter movies..." 
-              value={filterValue}
-              onChange={(e) => setFilterValue(e.target.value)}
-            />
-          </div>
+          )}
+
           <div className="sort-control">
             <label>Sort by:</label>
             <select value={sortBy} onChange={handleSortChange}>
@@ -61,6 +70,7 @@ const MovieGrid = ({ movies, title, description }: MovieGridProps) => {
           </div>
         </div>
       </div>
+
       <div className="movie-grid">
         {sortedMovies.map(movie => (
           <MovieCard key={movie.id} movie={movie} />

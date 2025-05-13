@@ -52,33 +52,44 @@
   margin: 0 auto;
 }
 
-/* Genre filter */
+/* Genre filter container spacing */
 .genre-filter {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-6);
+  gap: var(--spacing-sm); /* Adds consistent space between buttons */
+  margin-bottom: var(--spacing-lg);
   align-items: center;
 }
 
+/* Base style for genre buttons */
 .genre-button {
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-full);
-  background-color: var(--color-gray-700);
-  color: var(--text-secondary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-xl);
   font-size: var(--font-size-sm);
-  transition: background-color var(--transition-fast), color var(--transition-fast);
+  font-weight: 600; /* Increased font weight */
+  cursor: pointer;
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-md); /* Stronger shadow */
+  border: 1px solid var(--color-border);
+  transition: background-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
+/* Hover state */
 .genre-button:hover {
-  background-color: var(--color-gray-600);
-  color: var(--text-primary);
+  background-color: var(--color-text-secondary1);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-lg); /* Enhanced elevation on hover */
 }
 
+/* Active button style */
 .genre-button.active {
   background-color: var(--color-primary);
   color: var(--color-white);
+  box-shadow: var(--shadow-lg);
+  border: none;
 }
+
 
 /* Search page */
 .search-container {

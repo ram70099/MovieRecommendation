@@ -10,12 +10,9 @@ export interface UserSettings {
 }
 export const AVAILABLE_LANGUAGES = [
   { code: 'en', label: 'English' },
-  { code: 'es', label: 'Español' },
-  { code: 'fr', label: 'Français' },
   { code: 'hi', label: 'हिंदी (Hindi)' },
   { code: 'pa', label: 'ਪੰਜਾਬੀ (Punjabi)' },
   { code: 'hinglish', label: 'Hinglish' },
-  { code: 'ar', label: 'العربية (Arabic)' }
 ];
 
 export type ContentRating = 'G' | 'PG' | 'PG-13' | 'R' | 'NC-17';
@@ -27,8 +24,9 @@ export const AVAILABLE_GENRES = [
 ];
 
 export const HOME_PAGE_OPTIONS = [
+  { value: 'home', label: 'Home' },
   { value: 'trending', label: 'Trending' },
-  { value: 'recommended', label: 'Recommended' },
+  { value: 'search', label: 'Search' },
   { value: 'watchlist', label: 'Watchlist' },
   { value: 'discover', label: 'Discover' }
 ];

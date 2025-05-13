@@ -9,6 +9,7 @@
   --color-accent: #ffa500;
   --color-text-primary: #1a1a1a;
   --color-text-secondary: #666666;
+  --color-text-secondary1: #b1aeae;
   --color-text-tertiary: #999999;
   --color-border: #e0e0e0;
   --color-rating: #ffc107;
@@ -72,4 +73,29 @@
   --z-index-sticky: 200;
   --z-index-modal: 300;
   --z-index-tooltip: 400;
+}
+:root {
+  --search-background: var(--color-surface);
+  --search-shadow: var(--shadow-md);
+}
+
+[data-theme='light'] {
+  --search-background: #fffef8;
+  --search-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --search-background: #1a1a1a;
+  --search-shadow: 0 0 10px rgba(244, 41, 98, 0.3);
+}
+[data-theme='light'] .genre-button:hover {
+  background-color: var(--color-text-secondary1);
+  color: var(--color-text-primary);
+  box-shadow: var(--search-shadow); /* softer light-style shadow */
+}
+
+[data-theme='dark'] .genre-button:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+  box-shadow: 0 0 10px rgba(244, 41, 98, 0.2); /* subtle glow in dark mode */
 }

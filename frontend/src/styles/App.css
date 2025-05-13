@@ -27,7 +27,7 @@
 /* Expand content margin when sidebar expands or is hovered */
 .sidebar:hover ~ .main-content,
 .layout.sidebar-expanded .main-content {
-  margin-left: 240px; /* Match sidebar-expanded width */
+  margin-left: 260px; /* Match sidebar-expanded width */
 }
 
 /* Responsive behavior */

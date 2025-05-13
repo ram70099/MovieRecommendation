@@ -2,51 +2,73 @@
   position: relative;
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 2rem auto;
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--search-shadow);
+  background-color: var(--search-background);
+  transition: background-color var(--transition-normal), box-shadow var(--transition-normal);
 }
 
 .search-bar input {
   width: 100%;
-  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-10);
-  background-color: var(--color-gray-700);
-  border: 2px solid var(--border-color);
-  border-radius: var(--radius-full);
+  padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) calc(var(--spacing-xl) + 24px); /* Adjusted */
+  border: none;
+  background-color: transparent;
+  color: var(--color-text-primary);
   font-size: var(--font-size-md);
-  transition: border-color var(--transition-fast);
+  border-radius: var(--border-radius-xl);
+  outline: none;
 }
 
-.search-bar input:focus {
-  border-color: var(--color-primary);
+.search-bar input::placeholder {
+  color: var(--color-text-tertiary);
 }
 
 .search-icon {
   position: absolute;
-  left: var(--space-4);
+  left: var(--spacing-md);
   top: 50%;
   transform: translateY(-50%);
-  color: var(--text-tertiary);
+  color: var(--color-text-tertiary);
+  pointer-events: none;
 }
 
+/* Clear button */
+.clear-button {
+  position: absolute;
+  right: var(--spacing-xl);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-xs);
+  transition: color var(--transition-fast);
+}
+
+.clear-button:hover {
+  color: var(--color-text-secondary);
+}
+
+/* Optional search button */
 .search-button {
   position: absolute;
-  right: var(--space-2);
+  right: var(--spacing-sm);
   top: 50%;
   transform: translateY(-50%);
   background-color: var(--color-primary);
   color: var(--color-white);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-full);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border: none;
+  border-radius: var(--border-radius-full);
+  font-weight: 600;
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+  cursor: pointer;
   transition: background-color var(--transition-fast);
 }
 
 .search-button:hover {
-  background-color: var(--color-primary-light);
-}
-
-@media (max-width: 768px) {
-  .search-bar {
-    max-width: 100%;
-  }
+  background-color: var(--color-primary-hover);
 }

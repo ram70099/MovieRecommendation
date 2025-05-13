@@ -20,12 +20,7 @@
     };
     
 
-    const handleGenreToggle = (genre: string) => {
-      const newGenres = settings.favoriteGenres.includes(genre)
-        ? settings.favoriteGenres.filter(g => g !== genre)
-        : [...settings.favoriteGenres, genre];
-      updateSettings({ favoriteGenres: newGenres });
-    };
+
 
     const handleClearData = () => {
       if (showConfirmClear) {
@@ -37,7 +32,7 @@
     };
 
     return (
-      <div className={styles.container}>
+      <div>
         <h1 className={styles.title}>{t('settings')}</h1>
         
         <section className={styles.section}>
@@ -118,8 +113,8 @@
 
           <div className={styles.settingItem}>
             <div className={styles.settingInfo}>
-              <h3 className={styles.settingTitle}>{t('clearAppData')}</h3>
-              <p className={styles.settingDescription}>{t('resetAppData')}</p>
+              <h3 className={styles.settingTitle}>{t('clearwatchlist')}</h3>
+              <p className={styles.settingDescription}>{t('resetwatchlist')}</p>
             </div>
             <button
               className={`${styles.button} ${showConfirmClear ? styles.buttonDanger : ''}`}
