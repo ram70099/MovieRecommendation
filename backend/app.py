@@ -2,10 +2,10 @@ from flask import Flask, jsonify, request, abort
 from flask_cors import CORS
 import pandas as pd
 
-app = Flask(__name__)
+app = Flask(__name__) 
 CORS(app)
 
-df = pd.read_csv('adult_movies_data.csv')
+df = pd.read_csv('movies_data.csv')
 df = df.dropna(subset=['MovieID', 'Title', 'Release Date', 'Rating', 'adult'])
 df['Release Date'] = pd.to_datetime(df['Release Date'], errors='coerce')
 df['Year'] = df['Release Date'].dt.year
