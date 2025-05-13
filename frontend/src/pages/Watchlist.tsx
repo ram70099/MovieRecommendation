@@ -100,12 +100,7 @@ const Watchlist = () => {
     }
   };
 
-  const clearAll = () => {
-    localStorage.removeItem(WATCHLIST_KEY);
-    localStorage.removeItem(FAVORITES_KEY);
-    setWatchlist([]);
-    setFavorites([]);
-  };
+ 
 
   const renderTabs = () => (
     <div
@@ -293,15 +288,7 @@ const Watchlist = () => {
       >
         <h1 className="page-title">My Movies</h1>
 
-        {(watchlist.length > 0 || favorites.length > 0) && (
-          <button
-            className="btn-secondary"
-            onClick={clearAll}
-            style={{ padding: "8px 16px" }}
-          >
-            Clear All
-          </button>
-        )}
+        
       </div>
 
       {(watchlist.length > 0 || favorites.length > 0) && renderTabs()}
