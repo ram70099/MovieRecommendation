@@ -37,7 +37,9 @@ const Home = () => {
       processMovieData(data);
     } catch (err: any) {
       console.error(`Error fetching ${genre} movies:`, err);
-      setError(t("errorFetchGenre", { genre }) || "Failed to load genre movies.");
+      setError(
+        t("errorFetchGenre", { genre }) || "Failed to load genre movies."
+      );
       setLoading(false);
     }
   };
@@ -52,7 +54,9 @@ const Home = () => {
         releaseDate: movie["Release Date"],
         posterUrl: movie["Poster URL"],
         rating: parseFloat(movie.Rating),
-        genres: movie.Genres ? movie.Genres.split(",").map((g: string) => g.trim()) : [],
+        genres: movie.Genres
+          ? movie.Genres.split(",").map((g: string) => g.trim())
+          : [],
         year: new Date(movie["Release Date"]).getFullYear(),
       }));
 
@@ -89,8 +93,11 @@ const Home = () => {
 
       <section className="hero-section">
         <div className="hero-content">
-          <h2>{t("welcome") || "Welcome to MovieLens"}</h2>
-          <p>{t("homeTagline") || "Discover, track, and enjoy your favorite movies in one place."}</p>
+          <h2>{t("welcome") || "Welcome to TeamFlicks"}</h2>
+          <p>
+            {t("homeTagline") ||
+              "Discover, track, and enjoy your favorite movies in one place."}
+          </p>
         </div>
       </section>
 
