@@ -53,27 +53,25 @@
   color: var(--color-text-secondary);
 }
 
-/* Force exactly 5 movies per row on large screens */
+/* Movie grid layout */
 .movie-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--spacing-xl);
+  padding-bottom: var(--spacing-xl);
 }
 
-/* Medium screens: 3 per row */
+/* Responsive layout adjustments */
 @media (max-width: 1200px) {
   .movie-grid {
-    grid-template-columns: repeat(4, 1fr);
     gap: var(--spacing-lg);
   }
 }
 
-/* Tablets: 2 per row, header stacks vertically */
 @media (max-width: 768px) {
   .movie-grid-header {
     flex-direction: column;
     align-items: stretch;
-    gap: var(--spacing-md);
   }
 
   .header-controls {
@@ -84,16 +82,14 @@
   .sort-control,
   .genre-control {
     width: 100%;
-    justify-content: space-between;
   }
 
   .movie-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: var(--spacing-md);
   }
 }
 
-/* Mobile: 1 per row */
 @media (max-width: 580px) {
   .movie-grid {
     grid-template-columns: 1fr;

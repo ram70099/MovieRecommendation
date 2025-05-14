@@ -15,7 +15,7 @@ df = df[df['Adult'] == False]  # This filter ensures only non-adult movies are u
 
 @app.route('/movies', methods=['GET'])
 def get_random_movies():
-    sample_size = min(100, len(df))
+    sample_size = min(200, len(df))
     random_movies = df.sample(n=sample_size)
     random_movies = random_movies.where(pd.notnull(random_movies), None)
     movie_list = random_movies.to_dict(orient='records')
