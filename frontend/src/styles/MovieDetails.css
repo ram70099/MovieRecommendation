@@ -6,6 +6,7 @@
   color: var(--color-text-primary);
 }
 
+
 .movie-backdrop {
   position: absolute;
   top: 0;
@@ -30,8 +31,10 @@
   position: relative;
   z-index: 1;
   padding: var(--spacing-lg);
-  padding-top: 45vh;
+  padding-top: 35vh;
+  padding-bottom: var(--spacing-xl);
 }
+
 
 .movie-header {
   position: absolute;
