@@ -42,11 +42,11 @@ const MovieGrid = ({
         </div>
 
         <div className="header-controls horizontal-row">
-          {/* Only render genre filter if genre props are passed */}
           {genres && selectedGenre !== undefined && onGenreChange && (
             <div className="genre-control">
-              <label>Genre:</label>
+              <label htmlFor="genre-select">Genre:</label>
               <select
+                id="genre-select"
                 value={selectedGenre}
                 onChange={e => onGenreChange(e.target.value)}
               >
@@ -61,8 +61,8 @@ const MovieGrid = ({
           )}
 
           <div className="sort-control">
-            <label>Sort by:</label>
-            <select value={sortBy} onChange={handleSortChange}>
+            <label htmlFor="sort-select">Sort by:</label>
+            <select id="sort-select" value={sortBy} onChange={handleSortChange}>
               <option value="title">Title</option>
               <option value="year">Year</option>
               <option value="rating">Rating</option>
@@ -72,9 +72,11 @@ const MovieGrid = ({
       </div>
 
       <div className="movie-grid">
-        {sortedMovies.map(movie => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
+        {sortedMovies.length > 0 ? (
+          sortedMovies.map(movie => <MovieCard key={movie.id} movie={movie} />)
+        ) : (
+          <p className="no-movies">No movies found.</p>
+        )}
       </div>
     </div>
   )

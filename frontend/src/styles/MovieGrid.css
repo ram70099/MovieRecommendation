@@ -63,7 +63,7 @@
 /* Medium screens: 3 per row */
 @media (max-width: 1200px) {
   .movie-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--spacing-lg);
   }
 }

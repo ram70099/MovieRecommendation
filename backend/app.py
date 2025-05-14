@@ -6,12 +6,12 @@ app = Flask(__name__)
 CORS(app)
 
 df = pd.read_csv('movies_data.csv')
-df = df.dropna(subset=['MovieID', 'Title', 'Release Date', 'Rating', 'adult'])
+df = df.dropna(subset=['MovieID', 'Title', 'Release Date', 'Rating', 'Adult'])
 df['Release Date'] = pd.to_datetime(df['Release Date'], errors='coerce')
 df['Year'] = df['Release Date'].dt.year
 df = df[df['Year'].notnull()]
 df['Year'] = df['Year'].astype(int)
-df = df[df['adult'] == False]
+df = df[df['Adult'] == False]  # This filter ensures only non-adult movies are used
 
 @app.route('/movies', methods=['GET'])
 def get_random_movies():
@@ -64,9 +64,7 @@ def get_movies_by_multiple_genres():
     filtered_movies = df.copy()
     for genre in genres_list:
         genre = genre.lower().strip()
-        filtered_movies = filtered_movies[
-            filtered_movies['Genres'].str.lower().str.contains(genre, na=False)
-        ]
+        filtered_movies = filtered_movies[filtered_movies['Genres'].str.lower().str.contains(genre, na=False)]
     filtered_movies = filtered_movies.head(100)
     filtered_movies = filtered_movies.where(pd.notnull(filtered_movies), None)
     movie_list = filtered_movies.to_dict(orient='records')
