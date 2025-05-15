@@ -40,7 +40,7 @@ const MovieDetails = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/movie/${id}`);
+        const response = await fetch(`https://movierecommendation-4336.onrender.com/movie/${id}`);
         const data = await response.json();
 
         const transformedMovie: Movie = {

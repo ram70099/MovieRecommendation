@@ -3,7 +3,7 @@ import SearchBar from '../components/SearchBar'
 import MovieGrid from '../components/MovieGrid'
 import { Movie } from '../types/movie' // Assuming you have a Movie type defined
 
-const API_URL = 'http://localhost:5000'; // Change this to your actual API URL
+const API_URL = 'https://movierecommendation-4336.onrender.com'; // Change this to your actual API URL
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState<string>('')

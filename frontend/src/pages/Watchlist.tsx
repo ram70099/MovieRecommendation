@@ -41,64 +41,11 @@ const Watchlist = () => {
     loadMovieData();
   }, []);
 
-  const removeFromWatchlist = (movieId: number) => {
-    try {
-      // Remove from state
-      const updatedWatchlist = watchlist.filter(
-        (movie) => movie.id !== movieId
-      );
-      setWatchlist(updatedWatchlist);
 
-      // Update localStorage
-      localStorage.setItem(WATCHLIST_KEY, JSON.stringify(updatedWatchlist));
-    } catch (error) {
-      console.error("Error removing movie from watchlist:", error);
-    }
-  };
 
-  const removeFromFavorites = (movieId: number) => {
-    try {
-      // Remove from state
-      const updatedFavorites = favorites.filter(
-        (movie) => movie.id !== movieId
-      );
-      setFavorites(updatedFavorites);
-
-      // Update localStorage
-      localStorage.setItem(FAVORITES_KEY, JSON.stringify(updatedFavorites));
-    } catch (error) {
-      console.error("Error removing movie from favorites:", error);
-    }
-  };
 
   // Function to move movie between lists
-  const moveMovie = (
-    movie: Movie,
-    fromList: "watchlist" | "favorites",
-    toList: "watchlist" | "favorites"
-  ) => {
-    try {
-      // Remove from source list
-      if (fromList === "watchlist") {
-        removeFromWatchlist(movie.id);
-      } else {
-        removeFromFavorites(movie.id);
-      }
-
-      // Add to target list
-      if (toList === "watchlist") {
-        const newWatchlist = [...watchlist, movie];
-        setWatchlist(newWatchlist);
-        localStorage.setItem(WATCHLIST_KEY, JSON.stringify(newWatchlist));
-      } else {
-        const newFavorites = [...favorites, movie];
-        setFavorites(newFavorites);
-        localStorage.setItem(FAVORITES_KEY, JSON.stringify(newFavorites));
-      }
-    } catch (error) {
-      console.error("Error moving movie between lists:", error);
-    }
-  };
+ 
 
  
 

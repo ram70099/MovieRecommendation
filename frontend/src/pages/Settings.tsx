@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
 import { useSettings } from '../context/SettingsContext';
-import { AVAILABLE_GENRES, HOME_PAGE_OPTIONS, AVAILABLE_LANGUAGES } from '../types/settings';
-import { Sun, Moon, Globe, Bell, Shield, Eye, Film, Save, Trash2, Home } from 'lucide-react';
+import {  HOME_PAGE_OPTIONS, AVAILABLE_LANGUAGES } from '../types/settings';
+import { Sun, Moon, Globe,   Trash2, Home } from 'lucide-react';
 import styles from '../styles/Settings.module.css';
 import i18n from '../i18n'; // Update the path to your actual i18n.ts file
 

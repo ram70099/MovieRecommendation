@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Film, Bookmark, Home, Star, Compass, Search, TrendingUp, Settings } from 'lucide-react';
+import {  Bookmark, Home,  Compass, Search,  Settings } from 'lucide-react';
 import '../styles/Sidebar.css';
 import { useTranslation } from 'react-i18next';
 

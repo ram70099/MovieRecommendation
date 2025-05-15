@@ -9,7 +9,7 @@ const FAVORITES_KEY = "movie-app-favorites";
 
 const Discover = () => {
   const { t } = useTranslation();
-  const API_URL = "http://127.0.0.1:5000";
+  const API_URL = "https://movierecommendation-4336.onrender.com/";
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([]);
