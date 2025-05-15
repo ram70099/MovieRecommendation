@@ -1,8 +1,9 @@
 from flask import Flask, jsonify, request, abort
 from flask_cors import CORS
 import pandas as pd
+import os
 
-app = Flask(__name__) 
+app = Flask(__name__)
 CORS(app)
 
 df = pd.read_csv('movies_data.csv')
@@ -71,4 +72,5 @@ def get_movies_by_multiple_genres():
     return jsonify(movie_list)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))  # Use Render's port or default to 5000 locally
+    app.run(host='0.0.0.0', port=port, debug=True)
