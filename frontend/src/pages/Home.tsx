@@ -4,7 +4,7 @@ import MovieGrid from "../components/MovieGrid";
 import { Movie } from "../types/movie";
 import "../styles/Pages.css";
 
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = "https://movierecommendation-4336.onrender.com";
 
 const Home = () => {
   const { t } = useTranslation();

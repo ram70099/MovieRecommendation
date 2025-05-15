@@ -24,7 +24,9 @@ const MovieDetails = () => {
       try {
         const watchlistData = localStorage.getItem(WATCHLIST_KEY);
         const watchlist = watchlistData ? JSON.parse(watchlistData) : [];
-        setIsInWatchlist(watchlist.some((item: Movie) => item.id === Number(id)));
+        setIsInWatchlist(
+          watchlist.some((item: Movie) => item.id === Number(id))
+        );
 
         const favoritesData = localStorage.getItem(FAVORITES_KEY);
         const favorites = favoritesData ? JSON.parse(favoritesData) : [];
@@ -40,7 +42,9 @@ const MovieDetails = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/movie/${id}`);
+        const response = await fetch(
+          `https://movierecommendation-4336.onrender.com/movie/${id}`
+        );
         const data = await response.json();
 
         const transformedMovie: Movie = {
@@ -55,17 +59,20 @@ const MovieDetails = () => {
         };
 
         setMovie(transformedMovie);
-        
+
         // Fetch trailer data after getting movie details
         // Try with both the ID from the URL and the MovieID from data
         fetchTrailer(Number(id));
         if (data.MovieID !== Number(id)) {
           fetchTrailer(data.MovieID);
         }
-        
+
         // Also try searching by movie title if needed
         if (data.Title) {
-          fetchTrailerByTitle(data.Title, data.year || new Date(data["Release Date"]).getFullYear());
+          fetchTrailerByTitle(
+            data.Title,
+            data.year || new Date(data["Release Date"]).getFullYear()
+          );
         }
       } catch (error) {
         console.error("Failed to fetch movie:", error);
@@ -78,49 +85,54 @@ const MovieDetails = () => {
 
   const fetchTrailer = async (movieId: number) => {
     if (!movieId) return;
-    
+
     setIsLoadingTrailer(true);
     try {
       console.log(`Fetching trailer for movie ID: ${movieId}`);
       const response = await fetch(
         `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=fb7bb23f03b6994dafc674c074d01761`
       );
-      
+
       if (!response.ok) {
         throw new Error(`API returned status: ${response.status}`);
       }
-      
+
       const data = await response.json();
-      
+
       if (!data.results || data.results.length === 0) {
         console.log(`No videos found for movie ID: ${movieId}`);
         return;
       }
-      
+
       // First try to find an official trailer
       const officialTrailer = data.results.find(
-        (video: any) => video.type === "Trailer" && video.site === "YouTube" && video.official === true
+        (video: any) =>
+          video.type === "Trailer" &&
+          video.site === "YouTube" &&
+          video.official === true
       );
-      
+
       // If no official trailer, find any trailer
       const anyTrailer = data.results.find(
         (video: any) => video.type === "Trailer" && video.site === "YouTube"
       );
-      
+
       // If no trailer at all, find any teaser
       const teaser = data.results.find(
         (video: any) => video.type === "Teaser" && video.site === "YouTube"
       );
-      
+
       // Find any YouTube video if nothing else works
       const anyVideo = data.results.find(
         (video: any) => video.site === "YouTube"
       );
-      
+
       const bestVideo = officialTrailer || anyTrailer || teaser || anyVideo;
-      
+
       if (bestVideo) {
-        console.log(`Found video: ${bestVideo.name} (${bestVideo.type}) - Key: ${bestVideo.key}`);
+        console.log(
+          `Found video: ${bestVideo.name} (${bestVideo.type}) - Key: ${bestVideo.key}`
+        );
         setTrailerKey(bestVideo.key);
       } else {
         console.log(`No suitable videos found for movie ID: ${movieId}`);
@@ -131,41 +143,46 @@ const MovieDetails = () => {
       setIsLoadingTrailer(false);
     }
   };
-  
+
   const fetchTrailerByTitle = async (title: string, year?: number) => {
     // Only try this as a fallback if we don't already have a trailer key
     if (trailerKey) return;
-    
+
     setIsLoadingTrailer(true);
     try {
       console.log(`Searching for movie by title: "${title}" (${year})`);
       // First search for the movie by title
       const searchResponse = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=fb7bb23f03b6994dafc674c074d01761&query=${encodeURIComponent(title)}${year ? `&year=${year}` : ''}`
+        `https://api.themoviedb.org/3/search/movie?api_key=fb7bb23f03b6994dafc674c074d01761&query=${encodeURIComponent(
+          title
+        )}${year ? `&year=${year}` : ""}`
       );
-      
+
       if (!searchResponse.ok) {
         throw new Error(`Search API returned status: ${searchResponse.status}`);
       }
-      
+
       const searchData = await searchResponse.json();
-      
+
       if (!searchData.results || searchData.results.length === 0) {
         console.log(`No movies found with title "${title}"`);
         return;
       }
-      
+
       // Get the first result that matches the title closely
-      const movieMatch = searchData.results.find((movie: any) => 
-        movie.title.toLowerCase() === title.toLowerCase() || 
-        movie.original_title?.toLowerCase() === title.toLowerCase()
-      ) || searchData.results[0];
-      
-      console.log(`Found movie match: ${movieMatch.title} (ID: ${movieMatch.id})`);
-      
+      const movieMatch =
+        searchData.results.find(
+          (movie: any) =>
+            movie.title.toLowerCase() === title.toLowerCase() ||
+            movie.original_title?.toLowerCase() === title.toLowerCase()
+        ) || searchData.results[0];
+
+      console.log(
+        `Found movie match: ${movieMatch.title} (ID: ${movieMatch.id})`
+      );
+
       // Now fetch the videos for this movie
       await fetchTrailer(movieMatch.id);
-      
     } catch (error) {
       console.error(`Failed to search for movie "${title}":`, error);
     } finally {
@@ -181,7 +198,9 @@ const MovieDetails = () => {
       const watchlist = watchlistData ? JSON.parse(watchlistData) : [];
 
       if (isInWatchlist) {
-        const updatedWatchlist = watchlist.filter((item: Movie) => item.id !== movie.id);
+        const updatedWatchlist = watchlist.filter(
+          (item: Movie) => item.id !== movie.id
+        );
         localStorage.setItem(WATCHLIST_KEY, JSON.stringify(updatedWatchlist));
       } else {
         watchlist.push(movie);
@@ -202,7 +221,9 @@ const MovieDetails = () => {
       const favorites = favoritesData ? JSON.parse(favoritesData) : [];
 
       if (isFavorite) {
-        const updatedFavorites = favorites.filter((item: Movie) => item.id !== movie.id);
+        const updatedFavorites = favorites.filter(
+          (item: Movie) => item.id !== movie.id
+        );
         localStorage.setItem(FAVORITES_KEY, JSON.stringify(updatedFavorites));
       } else {
         favorites.push(movie);
@@ -224,9 +245,11 @@ const MovieDetails = () => {
       // If no trailer key is available yet, try to fetch again with the movie title
       if (movie) {
         fetchTrailerByTitle(movie.title, movie.year);
-        
+
         // Show a temporary loading message
-        alert("Searching for trailer. Please try the button again in a moment.");
+        alert(
+          "Searching for trailer. Please try the button again in a moment."
+        );
       } else {
         alert("No trailer available for this movie");
       }
@@ -305,8 +328,8 @@ const MovieDetails = () => {
             </div>
 
             <div className="movie-actions">
-              <button 
-                className={`btn-primary ${isLoadingTrailer ? "loading" : ""}`} 
+              <button
+                className={`btn-primary ${isLoadingTrailer ? "loading" : ""}`}
                 onClick={openTrailer}
                 disabled={isLoadingTrailer}
               >

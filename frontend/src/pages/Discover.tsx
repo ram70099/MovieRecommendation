@@ -9,7 +9,7 @@ const FAVORITES_KEY = "movie-app-favorites";
 
 const Discover = () => {
   const { t } = useTranslation();
-  const API_URL = "http://127.0.0.1:5000";
+  const API_URL = "https://movierecommendation-4336.onrender.com";
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([]);
@@ -222,7 +222,7 @@ const Discover = () => {
 
   return (
     <div className="page">
-      <h1 className="page-title">{t('discover')}</h1>
+      <h1 className="page-title">{t("discover")}</h1>
 
       <div className="genre-filter">
         <button
@@ -264,9 +264,9 @@ const Discover = () => {
           ) : recommendedMovies.length > 0 ? (
             <MovieGrid
               movies={recommendedMovies}
-              title={t('recommendedTitle')}
-              description={t('recommendedDescription')}
-                />
+              title={t("recommendedTitle")}
+              description={t("recommendedDescription")}
+            />
           ) : null}
         </div>
       )}

@@ -1,13 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import {
-  Film,
+  // Film,
   Bookmark,
   Home,
-  Star,
+  // Star,
   Compass,
   Search,
-  TrendingUp,
+  // TrendingUp,
   Settings,
 } from "lucide-react";
 import "../styles/Sidebar.css";

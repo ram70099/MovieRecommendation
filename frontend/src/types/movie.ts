@@ -7,4 +7,5 @@ export interface Movie {
   rating: number
   genres: string[]
   year: number
+  backdropUrl?: string // 👈 Add this line
 }
