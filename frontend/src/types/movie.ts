@@ -9,4 +9,5 @@ export interface Movie {
   year: number
   backdropUrl?: string
   director?: string
+  cast?: string[]
 }
