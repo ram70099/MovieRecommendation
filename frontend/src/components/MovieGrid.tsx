@@ -10,6 +10,9 @@ interface MovieGridProps {
   genres?: string[]
   selectedGenre?: string
   onGenreChange?: (genre: string) => void
+  // Optional enhancements:
+  // loading?: boolean
+  // maxDisplay?: number
 }
 
 const MovieGrid = ({
@@ -18,7 +21,9 @@ const MovieGrid = ({
   description,
   genres,
   selectedGenre,
-  onGenreChange
+  onGenreChange,
+  // loading = false,
+  // maxDisplay
 }: MovieGridProps) => {
   const [sortBy, setSortBy] = useState<'title' | 'year' | 'rating'>('title')
 
@@ -27,11 +32,21 @@ const MovieGrid = ({
   }
 
   const sortedMovies = [...movies].sort((a, b) => {
-    if (sortBy === 'title') return a.title.localeCompare(b.title)
-    if (sortBy === 'year') return b.year - a.year
-    if (sortBy === 'rating') return b.rating - a.rating
-    return 0
+    switch (sortBy) {
+      case 'title':
+        return a.title.localeCompare(b.title)
+      case 'year':
+        return b.year - a.year
+      case 'rating':
+        return b.rating - a.rating
+      default:
+        return 0
+    }
   })
+
+  // Optionally limit displayed movies
+  // const visibleMovies = maxDisplay ? sortedMovies.slice(0, maxDisplay) : sortedMovies
+  const visibleMovies = sortedMovies
 
   return (
     <div className="movie-grid-container">
@@ -71,13 +86,17 @@ const MovieGrid = ({
         </div>
       </div>
 
-      <div className="movie-grid">
-        {sortedMovies.length > 0 ? (
-          sortedMovies.map(movie => <MovieCard key={movie.id} movie={movie} />)
-        ) : (
-          <p className="no-movies">No movies found.</p>
-        )}
-      </div>
+      {/* {loading ? (
+        <p className="loading">Loading movies...</p>
+      ) : ( */}
+        <div className="movie-grid">
+          {visibleMovies.length > 0 ? (
+            visibleMovies.map(movie => <MovieCard key={movie.id} movie={movie} />)
+          ) : (
+            <p className="no-movies">No movies found.</p>
+          )}
+        </div>
+      {/* )} */}
     </div>
   )
 }

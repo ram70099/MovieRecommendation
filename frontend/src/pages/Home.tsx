@@ -81,7 +81,7 @@ const Home = () => {
 
   const currentYear = new Date().getFullYear();
   const recentMovies = movies
-    .filter((movie) => movie.year >= currentYear - 3)
+    .filter((movie) => movie.year >= currentYear - 5)
     .sort((a, b) => b.year - a.year);
 
   if (loading) return <div>{t("loading") || "Loading movies..."}</div>;
@@ -107,7 +107,7 @@ const Home = () => {
           title={`${t("recentReleases") || "Recent Releases"}${
             selectedGenre !== "All" ? ` - ${selectedGenre}` : ""
           }`}
-          description={t("recentDescription") || "Movies from the last 3 years"}
+          description={t("recentDescription") || "Movies from the last 5 years"}
           genres={allGenres}
           selectedGenre={selectedGenre}
           onGenreChange={handleGenreChange}
