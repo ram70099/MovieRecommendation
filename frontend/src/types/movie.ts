@@ -10,4 +10,5 @@ export interface Movie {
   backdropUrl?: string
   director?: string
   cast?: string[]
+  runtime?: number // ⬅️ NEWLY ADDED FIELD
 }
