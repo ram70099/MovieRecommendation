@@ -14,6 +14,9 @@ const MovieDetails = () => {
   const [movie, setMovie] = useState<Movie | null>(null);
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [trailerKey, setTrailerKey] = useState<string | null>(null);
+  const [showTrailerModal, setShowTrailerModal] = useState(false);
+  const [isLoadingTrailer, setIsLoadingTrailer] = useState(false);
 
   // Check if movie is in watchlist and favorites when component mounts
   useEffect(() => {
@@ -37,7 +40,7 @@ const MovieDetails = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/movie/${id}`);
+        const response = await fetch(`https://movierecommendation-4336.onrender.com/movie/${id}`);
         const data = await response.json();
 
         const transformedMovie: Movie = {
@@ -52,6 +55,18 @@ const MovieDetails = () => {
         };
 
         setMovie(transformedMovie);
+        
+        // Fetch trailer data after getting movie details
+        // Try with both the ID from the URL and the MovieID from data
+        fetchTrailer(Number(id));
+        if (data.MovieID !== Number(id)) {
+          fetchTrailer(data.MovieID);
+        }
+        
+        // Also try searching by movie title if needed
+        if (data.Title) {
+          fetchTrailerByTitle(data.Title, data.year || new Date(data["Release Date"]).getFullYear());
+        }
       } catch (error) {
         console.error("Failed to fetch movie:", error);
         setMovie(null);
@@ -60,6 +75,103 @@ const MovieDetails = () => {
 
     if (id) fetchMovie();
   }, [id]);
+
+  const fetchTrailer = async (movieId: number) => {
+    if (!movieId) return;
+    
+    setIsLoadingTrailer(true);
+    try {
+      console.log(`Fetching trailer for movie ID: ${movieId}`);
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=fb7bb23f03b6994dafc674c074d01761`
+      );
+      
+      if (!response.ok) {
+        throw new Error(`API returned status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (!data.results || data.results.length === 0) {
+        console.log(`No videos found for movie ID: ${movieId}`);
+        return;
+      }
+      
+      // First try to find an official trailer
+      const officialTrailer = data.results.find(
+        (video: any) => video.type === "Trailer" && video.site === "YouTube" && video.official === true
+      );
+      
+      // If no official trailer, find any trailer
+      const anyTrailer = data.results.find(
+        (video: any) => video.type === "Trailer" && video.site === "YouTube"
+      );
+      
+      // If no trailer at all, find any teaser
+      const teaser = data.results.find(
+        (video: any) => video.type === "Teaser" && video.site === "YouTube"
+      );
+      
+      // Find any YouTube video if nothing else works
+      const anyVideo = data.results.find(
+        (video: any) => video.site === "YouTube"
+      );
+      
+      const bestVideo = officialTrailer || anyTrailer || teaser || anyVideo;
+      
+      if (bestVideo) {
+        console.log(`Found video: ${bestVideo.name} (${bestVideo.type}) - Key: ${bestVideo.key}`);
+        setTrailerKey(bestVideo.key);
+      } else {
+        console.log(`No suitable videos found for movie ID: ${movieId}`);
+      }
+    } catch (error) {
+      console.error(`Failed to fetch trailer for movie ID ${movieId}:`, error);
+    } finally {
+      setIsLoadingTrailer(false);
+    }
+  };
+  
+  const fetchTrailerByTitle = async (title: string, year?: number) => {
+    // Only try this as a fallback if we don't already have a trailer key
+    if (trailerKey) return;
+    
+    setIsLoadingTrailer(true);
+    try {
+      console.log(`Searching for movie by title: "${title}" (${year})`);
+      // First search for the movie by title
+      const searchResponse = await fetch(
+        `https://api.themoviedb.org/3/search/movie?api_key=fb7bb23f03b6994dafc674c074d01761&query=${encodeURIComponent(title)}${year ? `&year=${year}` : ''}`
+      );
+      
+      if (!searchResponse.ok) {
+        throw new Error(`Search API returned status: ${searchResponse.status}`);
+      }
+      
+      const searchData = await searchResponse.json();
+      
+      if (!searchData.results || searchData.results.length === 0) {
+        console.log(`No movies found with title "${title}"`);
+        return;
+      }
+      
+      // Get the first result that matches the title closely
+      const movieMatch = searchData.results.find((movie: any) => 
+        movie.title.toLowerCase() === title.toLowerCase() || 
+        movie.original_title?.toLowerCase() === title.toLowerCase()
+      ) || searchData.results[0];
+      
+      console.log(`Found movie match: ${movieMatch.title} (ID: ${movieMatch.id})`);
+      
+      // Now fetch the videos for this movie
+      await fetchTrailer(movieMatch.id);
+      
+    } catch (error) {
+      console.error(`Failed to search for movie "${title}":`, error);
+    } finally {
+      setIsLoadingTrailer(false);
+    }
+  };
 
   const toggleWatchlist = () => {
     if (!movie) return;
@@ -101,6 +213,28 @@ const MovieDetails = () => {
     } catch (error) {
       console.error("Error updating favorites:", error);
     }
+  };
+
+  const openTrailer = () => {
+    if (trailerKey) {
+      setShowTrailerModal(true);
+    } else if (isLoadingTrailer) {
+      alert("Still searching for trailer. Please wait a moment...");
+    } else {
+      // If no trailer key is available yet, try to fetch again with the movie title
+      if (movie) {
+        fetchTrailerByTitle(movie.title, movie.year);
+        
+        // Show a temporary loading message
+        alert("Searching for trailer. Please try the button again in a moment.");
+      } else {
+        alert("No trailer available for this movie");
+      }
+    }
+  };
+
+  const closeTrailer = () => {
+    setShowTrailerModal(false);
   };
 
   if (!movie) {
@@ -171,21 +305,31 @@ const MovieDetails = () => {
             </div>
 
             <div className="movie-actions">
-              <button className="btn-primary">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-                Watch Trailer
+              <button 
+                className={`btn-primary ${isLoadingTrailer ? "loading" : ""}`} 
+                onClick={openTrailer}
+                disabled={isLoadingTrailer}
+              >
+                {isLoadingTrailer ? (
+                  "Loading..."
+                ) : (
+                  <>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    {trailerKey ? "Watch Trailer" : "Find Trailer"}
+                  </>
+                )}
               </button>
 
               <button
@@ -287,6 +431,41 @@ const MovieDetails = () => {
           </div>
         </div>
       </div>
+
+      {/* Trailer Modal */}
+      {showTrailerModal && trailerKey && (
+        <div className="trailer-modal">
+          <div className="trailer-modal-content">
+            <button className="close-trailer" onClick={closeTrailer}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            <div className="trailer-container">
+              <iframe
+                width="100%"
+                height="100%"
+                src={`https://www.youtube.com/embed/${trailerKey}`}
+                title={`${movie.title} Trailer`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
